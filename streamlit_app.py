@@ -7,7 +7,7 @@ import pandas as pd
 import pycountry_convert as pc
 from PIL import Image
 import plotly.express as px
-import tkinter 
+import tkinter
 
 im = Image.open("./assets/process.png")
 st.set_page_config(
