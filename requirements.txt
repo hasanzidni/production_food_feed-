@@ -1,0 +1,10 @@
+dash==2.6.2
+folium==0.13.0
+mysql_connector_python==8.0.30
+mysqlx==1.1.4
+pandas==1.4.3
+Pillow==9.3.0
+plotly==5.10.0
+pycountry_convert==0.7.2
+streamlit==1.14.0
+streamlit_folium==0.6.15
