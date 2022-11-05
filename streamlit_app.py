@@ -7,7 +7,6 @@ import pandas as pd
 import pycountry_convert as pc
 from PIL import Image
 import plotly.express as px
-import tkinter
 
 im = Image.open("./assets/process.png")
 st.set_page_config(
@@ -91,6 +90,6 @@ if not st.checkbox('Hide Graph', False, key=1):
     y='Total_production')
     st.plotly_chart(state_total_graph)
 
-# select_product = st.sidebar.selectbox("Select the Product", pd.unique(element_data["Item"]))
-# product_data = element_data[element_data['Item'] == select_product]
+select_product = st.selectbox("Select the Product", pd.unique(element_data["Item"]))
+product_data = element_data[element_data['Item'] == select_product]
 
