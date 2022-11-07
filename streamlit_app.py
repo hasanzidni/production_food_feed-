@@ -20,6 +20,8 @@ def predata1():
     fao.rename(columns={"Area":"Country"}, inplace=True)
     fao.rename(columns={"Item Code":"Code"}, inplace=True)
     renamedata(fao)
+    indexAge = fao[ (fao['Country'] == 'Timor-Leste')].index
+    fao.drop(indexAge , inplace=True)
     fao['Total_production'] = fao.loc[:, 'Y1961':'Y2013'].sum(axis=1)
     fao['Abbreviation'] = [pc.country_name_to_country_alpha2(x, cn_name_format="default") 
                 for x in fao['Country']]
