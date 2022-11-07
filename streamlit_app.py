@@ -1,7 +1,4 @@
 # python -m streamlit run streamlit_app.py
-from operator import index
-from turtle import title
-from mysqlx import Row
 import streamlit as st
 import pandas as pd
 import pycountry_convert as pc
