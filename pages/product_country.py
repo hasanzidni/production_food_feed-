@@ -11,7 +11,7 @@ st.set_page_config(
     page_icon=im,
     layout="wide"
 )
-df = processdatad()
+df = processdata()
 
 select_country = st.selectbox("Select the Continent", pd.unique(df["Continent"]))
 country_data = df[df['Continent'] == select_country]
