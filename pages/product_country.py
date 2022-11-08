@@ -6,7 +6,6 @@ from PIL import Image
 import plotly.express as px
 import plotly.graph_objects as go
 from streamlit_app import processdata
-import matplotlib.pyplot as plt
 
 im = Image.open("./assets/process.png")
 st.set_page_config(
