@@ -167,5 +167,48 @@ tab1.plotly_chart(graf_product)
 tab2.subheader(select_product + " Production table Y1961 ~ Y2013")
 tab2.write(element_data1)
 
-# m = folium.Map(location=[-22.908333, -43.196389], zoom_start=11, tiles='OpenStreetMap')
-# folium_static(m)
+select_continent = st.selectbox("Select the Continent", pd.unique(df["Continent"]))
+continent_data = df[df['Continent'] == select_continent]
+if select_continent == 'Asia':
+    lan = 14.6709
+    long = 75.0453
+elif select_continent == 'Africa':
+    lan = 6.2958712
+    long = 25.1235002
+elif select_continent == 'Oceania':
+    lan = -23.24954
+    long = 127.4240
+elif select_continent == 'Europe':
+    lan = 64.61600
+    long = 61.24236
+elif select_continent == 'North America':
+    lan = 50.557619
+    long = -97.5759
+elif select_continent == 'South America':
+    lan = -19.6598
+    long = -69.45098
+else:
+    lan = 7.823425
+    long = 12.46307
+
+maps = folium.Map(location=[lan,long],
+                zoom_start=3, tiles='Stamen Terrain')
+country_data_locations = continent_data.drop_duplicates(subset=['Country'],keep='last')
+country_data_locations = country_data_locations[["Country", "latitude", "longitude"]]
+for index, location_info in country_data_locations.iterrows():
+    folium.Marker([location_info["latitude"], location_info["longitude"]],
+                 popup=pd.unique(location_info["Country"])).add_to(maps)
+# st.write(country_data_locations)
+# maps = folium.Map(location=[-0.789275, 113.921327], zoom_start=3, tiles='OpenStreetMap',width='100%')
+# if st.checkbox('Show Map', False, key=1):
+    
+
+tab1, tab2 = st.tabs(["🗃 Daftar Benua","Map"])
+tab1.subheader("Benua " + select_continent )
+tab1.write(country_data_locations)
+
+tab2.subheader("Map Benua " + select_continent)
+with tab2:
+    folium_static(maps, width=1200, height=600)
+
+    

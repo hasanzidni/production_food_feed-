@@ -5,6 +5,10 @@ import pycountry_convert as pc
 from PIL import Image
 import plotly.express as px
 import plotly.graph_objects as go
+import folium
+from streamlit_folium import folium_static
+import geopandas
+
 
 im = Image.open("./assets/process.png")
 st.set_page_config(
@@ -34,6 +38,18 @@ def predata2():
     latlong = pd.read_csv('./Lat_long.csv',encoding = "ISO-8859-1")
     latlong.rename(columns={"country":"Abbreviation"}, inplace=True)
     return latlong
+
+def predata3():
+    df = geopandas.read_file('./countries.geojson')
+    # df = pd.DataFrame(geodata.drop(columns=["geometry"]))
+    # geodata.rename(columns={"ADMIN":"Country"}, inplace=True)
+    # geodata['Abbreviation'] = [pc.country_name_to_country_alpha2(x, cn_name_format="default") 
+    #             for x in geodata['Country']]
+    df['lon'] = df.geometry.x  # extract longitude from geometry
+    df['lat'] = df.geometry.y  # extract latitude from geometry
+    df = df[['lon','lat']]     # only keep longitude and latitude
+    st.write(df.head())        # show on table for testing only
+    st.map(df)                 # show on map
 
 def renamedata(df):
     df['Country'] = df['Country'].replace(['Bolivia (Plurinational State of)'],['Bolivia'])
@@ -66,6 +82,16 @@ df = processdata()
 select_country = st.selectbox("Select the Country", pd.unique(df["Country"]))
 country_data = df[df['Country'] == select_country]
 # st.text(" Production Food and Feed in %s " % (select_country))
+country_data_locations = country_data.drop_duplicates(subset=['Country'],keep='last')
+maps = folium.Map(location=[pd.unique(country_data_locations['latitude']), pd.unique(country_data_locations['longitude'])],
+                zoom_start=5, tiles='Stamen Terrain')
+folium.Marker(location=[pd.unique(country_data_locations['latitude']), pd.unique(country_data_locations['longitude'])],
+            popup=pd.unique(country_data_locations['Country']),
+            icon=folium.Icon(color="green", icon="info-sign")).add_to(maps)
+# maps = folium.Map(location=[-0.789275, 113.921327], zoom_start=3, tiles='OpenStreetMap',width='100%')
+if st.checkbox('Show Map', False, key=1):
+    folium_static(maps, width=1200, height=400)
+    # print(pd.unique(country_data['latitude']))
 
 # food = country_data['Element'].value_counts()['Food'] 
 # feed = country_data['Element'].value_counts()['Feed'] 
