@@ -7,7 +7,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import folium
 from streamlit_folium import folium_static
-import geopandas
+# import geopandas
 
 
 im = Image.open("./assets/process.png")
@@ -39,17 +39,17 @@ def predata2():
     latlong.rename(columns={"country":"Abbreviation"}, inplace=True)
     return latlong
 
-def predata3():
-    df = geopandas.read_file('./countries.geojson')
-    # df = pd.DataFrame(geodata.drop(columns=["geometry"]))
-    # geodata.rename(columns={"ADMIN":"Country"}, inplace=True)
-    # geodata['Abbreviation'] = [pc.country_name_to_country_alpha2(x, cn_name_format="default") 
-    #             for x in geodata['Country']]
-    df['lon'] = df.geometry.x  # extract longitude from geometry
-    df['lat'] = df.geometry.y  # extract latitude from geometry
-    df = df[['lon','lat']]     # only keep longitude and latitude
-    st.write(df.head())        # show on table for testing only
-    st.map(df)                 # show on map
+# def predata3():
+#     df = geopandas.read_file('./countries.geojson')
+#     # df = pd.DataFrame(geodata.drop(columns=["geometry"]))
+#     # geodata.rename(columns={"ADMIN":"Country"}, inplace=True)
+#     # geodata['Abbreviation'] = [pc.country_name_to_country_alpha2(x, cn_name_format="default") 
+#     #             for x in geodata['Country']]
+#     df['lon'] = df.geometry.x  # extract longitude from geometry
+#     df['lat'] = df.geometry.y  # extract latitude from geometry
+#     df = df[['lon','lat']]     # only keep longitude and latitude
+#     st.write(df.head())        # show on table for testing only
+#     st.map(df)                 # show on map
 
 def renamedata(df):
     df['Country'] = df['Country'].replace(['Bolivia (Plurinational State of)'],['Bolivia'])
