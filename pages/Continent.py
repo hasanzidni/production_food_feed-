@@ -7,6 +7,13 @@ import plotly.express as px
 import plotly.graph_objects as go
 from Country import processdata
 
+benua_Asia = "Asia covers an area of 44,579,000 square kilometres (17,212,000 sq mi), about 30% of Earth's total land area and 8.7% of Earth's total surface area. The continent, which has long been home to the majority of the human population, was the site of many of the first civilizations. Its 4.7 billion people constitute roughly 60% of the world's population. "
+benua_Europa = "Europe covers an area 10.18 square kilometres (3.93 million sq mi), or 2% of Earth's surface (6.8% of land area), making it the second-smallest continent (using the seven-continent model). Politically, Europe is divided into about fifty sovereign states, of which Russia is the largest and most populous, spanning 39% of the continent and comprising 15% of its population. Europe had a total population of about 745 million (about 10% of the world population) in 2021"
+benua_NorthAmerica = "North America covers an area of about 24,709,000 square kilometres (9,540,000 square miles), about 16.5% of Earth's land area and about 4.8% of its total surface. North America is the third-largest continent by area, following Asia and Africa, and the fourth by population after Asia, Africa, and Europe. In 2013, its population was estimated at nearly 579 million people in 23 independent states, or about 7.5% of the world's population."
+benua_SouthAmerica = "South America has an area of 17,840,000 square kilometers (6,890,000 sq mi). Its population as of 2021 has been estimated at more than 434 million."
+benua_Africa = "Africa is the world's second-largest and second-most populous continent, after Asia in both cases. At about 30.3 million km2 (11.7 million square miles) including adjacent islands, it covers 6% of Earth's total surface area and 20% of its land area. With 1.4 billion people as of 2021, it accounts for about 18% of the world's human population."
+benua_Oceania = "Oceania is estimated to have a land area of 8,525,989 square kilometres (3,291,903 sq mi) and a population of around 44.5 million as of 2021. When compared with the continents, the region of Oceania is the smallest in land area and the second least populated after Antarctica."
+
 im = Image.open("./assets/process.png")
 st.set_page_config(
     page_title= "dashboard",
@@ -172,21 +179,27 @@ continent_data = df[df['Continent'] == select_continent]
 if select_continent == 'Asia':
     lan = 14.6709
     long = 75.0453
+    st.write(benua_Asia)
 elif select_continent == 'Africa':
     lan = 6.2958712
     long = 25.1235002
+    st.write(benua_Africa)
 elif select_continent == 'Oceania':
     lan = -23.24954
     long = 127.4240
+    st.write(benua_Oceania)
 elif select_continent == 'Europe':
     lan = 64.61600
     long = 61.24236
+    st.write(benua_Europa)
 elif select_continent == 'North America':
     lan = 50.557619
     long = -97.5759
+    st.write(benua_NorthAmerica)
 elif select_continent == 'South America':
     lan = -19.6598
     long = -69.45098
+    st.write(benua_SouthAmerica)
 else:
     lan = 7.823425
     long = 12.46307
@@ -206,6 +219,7 @@ for index, location_info in country_data_locations.iterrows():
 tab1, tab2 = st.tabs(["List of countries on the continent " + select_continent,"Map on continents "+ select_continent])
 tab1.subheader("List of countries on the continent " + select_continent )
 tab1.write(country_data_locations)
+
 
 tab2.subheader("Map on continents "+ select_continent)
 with tab2:
