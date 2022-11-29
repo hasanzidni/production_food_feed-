@@ -148,7 +148,7 @@ with col3:
     st.markdown("#### South America")
     st.bar_chart(feed_SouthA)           
 
-col1, col2 = st.columns(2)
+col1, col2, col3 = st.columns(3)
 with col1:
     select_element = st.selectbox("Select the Element:", pd.unique(df["Element"]))
     element_data = df[df['Element'] == select_element]
@@ -157,11 +157,25 @@ with col2:
     select_product = st.selectbox("Select the Product", pd.unique(element_data["Item"]))
     product_data = element_data[element_data['Item'] == select_product]
 
-element_data1 = product_data.loc[:, 'Continent':'Total_production']
+Benua = product_data['Continent'].unique()
+container = st.container()
+all = st.checkbox("Select all")
+ 
+if all:
+    select_benua = container.multiselect("Select the Continent:",
+                ['Asia', 'Africa', 'Europe', 'Oceania', 'North America', 'South America'],
+                ['Asia', 'Africa', 'Europe', 'Oceania', 'North America', 'South America'])
+else:
+    select_benua =  container.multiselect("Select the Continent:",
+    Benua,default=['Asia', 'Africa', 'Europe', 'Oceania', 'North America', 'South America'])
+mask_benua = product_data['Continent'].isin(select_benua)
+benua_data = product_data[mask_benua]
+
+benua_data1 = benua_data.loc[:, 'Continent':'Total_production']
 tab1, tab2 = st.tabs(["📈 Chart", "🗃 Data"])
 
 graf_product = px.bar(
-    element_data1, 
+    benua_data1, 
     x='Country',
     y='Total_production',
     width= 1200, height= 700)
@@ -171,8 +185,8 @@ if select_product == None :
 tab1.subheader(select_product + " Production chart Y1961 ~ Y2013")
 tab1.plotly_chart(graf_product)
 
-tab2.subheader(select_product + " Production table Y1961 ~ Y2013")
-tab2.write(element_data1)
+tab2.subheader(select_product + " Production table Y1961 ~ Y2013 in ")
+tab2.write(benua_data1)
 
 select_continent = st.selectbox("Select the Continent", pd.unique(df["Continent"]))
 continent_data = df[df['Continent'] == select_continent]
